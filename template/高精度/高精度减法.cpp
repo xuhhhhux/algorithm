@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+using ll = long long;
+
+bool cmp(vector<int> a, vector<int> b) {
+	if (a.size() > b.size()) {
+		return true;
+	}
+	if (a.size() < b.size()) {
+		return false;
+	}
+	for (int i = a.size() - 1; i >= 0; i--) {
+		if (a[i] != b[i]) {
+			return a[i] > b[i];
+		}
+	}
+	return true;
+}
+
+vector<int> sub(vector<int> a, vector<int> b) {
+	vector<int> c;
+	int t = 0;
+	for (int i = 0; i < a.size(); i++) {
+		t += a[i];
+		if (i < b.size()) {
+			t -= b[i];
+		}
+		if (t < 0) {
+			c.push_back((t + 10) % 10);
+			t = -1;
+		} else {
+			c.push_back(t);
+			t = 0;
+		}
+	}
+	while (c.size() > 1 && c.back() == 0) {
+		c.pop_back();
+	}
+	return c;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+	
+	string s1, s2;
+	cin >> s1 >> s2;
+	
+	vector<int> a, b;
+	for (int i = s1.size() - 1; i >= 0; i--) {
+		a.push_back(s1[i] - '0');
+	}
+	for (int i = s2.size() - 1; i >= 0; i--) {
+		b.push_back(s2[i] - '0');
+	}
+	
+	vector<int> c;
+	if (cmp(a, b)) {
+		c = sub(a, b);
+	} else {
+		cout << "-";
+		c = sub(b, a);
+	}
+	
+	for (int i = c.size() - 1; i >= 0; i--) {
+		cout << c[i];
+	}
+	cout << "\n";
+	
+	return 0;
+}
